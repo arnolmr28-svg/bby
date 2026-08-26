@@ -2,7 +2,7 @@ const readline = require("readline");
 const { BOT_NAME } = require("./core/config");
 const { handleMessage } = require("./core/router");
 
-const USER_ID = "local-user-001";
+let USER_ID = "local-user-001";
 
 console.log(`
 ==============================
@@ -19,12 +19,33 @@ const rl = readline.createInterface({
   prompt: "You > "
 });
 
+console.log(`
+Commands:
+ /user 001  → change user
+ /user 002  → change user
+`);
+
 console.log(`Type @${BOT_NAME} followed by a message.`);
 rl.prompt();
 
 rl.on("line", async (line) => {
+  const text = line.trim();
+
+  // Change user command
+  if (text.startsWith("/user")) {
+    const id = text.split(" ")[1];
+
+    if (id) {
+      USER_ID = `local-user-${id}`;
+      console.log(`\nSystem > Current user changed: ${USER_ID}\n`);
+    }
+
+    rl.prompt();
+    return;
+  }
+
   try {
-    const response = await handleMessage(line, USER_ID);
+    const response = await handleMessage(text, USER_ID);
 
     if (response) {
       console.log(`\n${BOT_NAME} > ${response}\n`);
