@@ -2,12 +2,15 @@ const readline = require("readline");
 const { BOT_NAME } = require("./core/config");
 const { handleMessage } = require("./core/router");
 
+const USER_ID = "local-user-001";
+
 console.log(`
 ==============================
         ${BOT_NAME.toUpperCase()} AI
 ==============================
 Status: ONLINE
 Mode: Development
+User: ${USER_ID}
 `);
 
 const rl = readline.createInterface({
@@ -21,7 +24,7 @@ rl.prompt();
 
 rl.on("line", async (line) => {
   try {
-    const response = await handleMessage(line);
+    const response = await handleMessage(line, USER_ID);
 
     if (response) {
       console.log(`\n${BOT_NAME} > ${response}\n`);

@@ -35,6 +35,7 @@ function saveMemory(memory) {
 
 function getUserMemory(userId) {
   const memory = loadMemory();
+
   return memory[userId] || {};
 }
 
