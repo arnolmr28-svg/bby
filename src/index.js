@@ -19,13 +19,17 @@ const rl = readline.createInterface({
 console.log(`Type @${BOT_NAME} followed by a message.`);
 rl.prompt();
 
-rl.on("line", (line) => {
-  const response = handleMessage(line);
+rl.on("line", async (line) => {
+  try {
+    const response = await handleMessage(line);
 
-  if (response) {
-    console.log(`\n${BOT_NAME} > ${response}\n`);
-  } else {
-    console.log(`\n${BOT_NAME} > আমাকে mention করে প্রশ্ন করো: @${BOT_NAME} ...\n`);
+    if (response) {
+      console.log(`\n${BOT_NAME} > ${response}\n`);
+    } else {
+      console.log(`\n${BOT_NAME} > আমাকে mention করে প্রশ্ন করো: @${BOT_NAME} ...\n`);
+    }
+  } catch (error) {
+    console.error(`\n${BOT_NAME} > Error: ${error.message}\n`);
   }
 
   rl.prompt();
