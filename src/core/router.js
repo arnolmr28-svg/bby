@@ -2,6 +2,7 @@ const { BOT_NAME } = require("./config");
 const { generateResponse } = require("./ai");
 const { setUserMemory, getUserMemory } = require("./memory");
 const { handleAdminCommand } = require("../features/admin");
+const { handleCommand } = require("../features/commands");
 
 async function handleMessage(message, userId = "local-user") {
   const text = String(message || "").trim();
@@ -20,6 +21,13 @@ async function handleMessage(message, userId = "local-user") {
 
   if (!question) {
     return `আমি ${BOT_NAME} 😎 আমাকে কিছু জিজ্ঞেস করো।`;
+  }
+
+  // General commands
+  const commandResponse = handleCommand(question);
+
+  if (commandResponse) {
+    return commandResponse;
   }
 
   // Admin commands
@@ -52,7 +60,7 @@ async function handleMessage(message, userId = "local-user") {
     const name = nameMatch[1].trim();
 
     setUserMemory(userId, {
-      name: name
+      name
     });
 
     return `ঠিক আছে ${name}! 😊 আমি মনে রাখলাম।`;
